@@ -70,4 +70,96 @@ print(b)
 print(c)
 print(d)
 ```
+# Tensor Operations
+```
+import torch
 
+x = torch.tensor([1, 2, 3], dtype=torch.float32)
+y = torch.tensor([4, 5, 6], dtype=torch.float32)
+
+# Addition
+print(x + y)
+
+# Subtraction
+print(x - y)
+
+# Element-wise multiplication
+print(x * y)
+
+# Element-wise division
+print(x / y)
+```
+These are element-wise operations  
+Shape of x and y must match  
+Used heavily in loss computation & optimization  
+# Tensor Multiplication
+```
+import torch
+
+A = torch.tensor([[1, 2],
+                  [3, 4]], dtype=torch.float32)
+
+B = torch.tensor([[5, 6],
+                  [7, 8]], dtype=torch.float32)
+```
+```
+print(A * B)
+```
+Multiplies corresponding elements  
+NOT matrix multiplication
+```
+print(torch.matmul(A, B))
+```
+OR
+```
+print(A @ B)
+```
+Uses linear algebra rule
+Used in neural networks:
+    ```
+    output = input @ weights + bias
+    ```
+# Dot Product 
+``` x = torch.tensor([1., 2., 3.])
+y = torch.tensor([4., 5., 6.])
+
+dot = torch.dot(x, y)
+print(dot)
+```
+Dot product = weighted sum
+# Reshaping & View
+```
+x = torch.arange(1, 7)
+
+x_reshaped = x.view(2, 3)
+print(x_reshaped)
+```
+view() reshapes tensor  
+No data copied, just reinterpreted  
+Used to flatten images before fully connected layers  
+# NumPy ↔ PyTorch Bridge
+```
+import torch
+import numpy as np
+
+# NumPy array
+np_array = np.array([1, 2, 3])
+
+# Convert NumPy → Tensor
+torch_tensor = torch.from_numpy(np_array)
+
+print(torch_tensor)
+```
+Tensor → NumPy
+```
+tensor = torch.tensor([4, 5, 6])
+
+np_from_tensor = tensor.numpy()
+print(np_from_tensor)
+```
+They share memory  
+Changing one changes the other
+```
+np_array[0] = 100
+print(torch_tensor)
+```
