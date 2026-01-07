@@ -195,3 +195,210 @@ output
 tensor([100,   2,   3])
 ```
 
+# Neural Network (nn)
+Below given   
+# What is a Neuron?
+```
+import torch
+
+# Input features
+x = torch.tensor([1.0, 2.0])
+
+# Weights
+w = torch.tensor([0.5, -1.0])
+
+# Bias
+b = torch.tensor(0.2)
+
+# Linear combination
+z = torch.dot(x, w) + b
+
+print("z (before activation):", z)
+```
+Output
+```
+z (before activation): tensor(-1.3)
+```
+z = (1.0 × 0.5) + (2.0 × -1.0) + 0.2
+  = 0.5 - 2.0 + 0.2
+  = -1.3  
+This is exactly one neuron.  
+# Activation Function(ReLU)
+```
+import torch
+
+z = torch.tensor(-1.3)
+
+output = torch.relu(z)
+
+print("After ReLU:", output)
+```
+Output
+```
+After ReLU: tensor(0.)
+```
+ReLU(z) = max(0, z)  
+Negative → 0  
+Positive → unchanged  
+Used to introduce non-linearity.  
+# Single Neuron = Linear + ReLU
+```
+import torch
+
+x = torch.tensor([1.0, 2.0])
+w = torch.tensor([0.5, -1.0])
+b = torch.tensor(0.2)
+
+z = torch.dot(x, w) + b
+output = torch.relu(z)
+
+print("Final output:", output)
+```
+# Neural Network using PyTorch
+```
+import torch
+import torch.nn as nn
+
+# Define model
+class SimpleNN(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc = nn.Linear(2, 1)  # FC layer
+
+    def forward(self, x):
+        return torch.relu(self.fc(x))
+
+# Create model
+model = SimpleNN()
+
+# Input
+x = torch.tensor([[1.0, 2.0]])
+
+# Forward pass
+output = model(x)
+
+print("Model output:", output)
+```
+Output
+```
+Model output: tensor([[0.3174]], grad_fn=<ReluBackward0>)
+```
+nn.Linear(2,1) → Fully Connected layer  
+PyTorch handles weights & bias  
+grad_fn → gradients are being tracked  
+# Loss Function (How wrong is the model?)
+```
+import torch
+import torch.nn as nn
+
+y_true = torch.tensor([[1.0]])
+y_pred = torch.tensor([[0.3]])
+
+loss_fn = nn.MSELoss()
+loss = loss_fn(y_pred, y_true)
+
+print("Loss:", loss)
+```
+Output
+```
+Loss: tensor(0.4900)
+```
+(y_true - y_pred)²
+= (1.0 - 0.3)²
+= 0.49
+Loss tells how bad the prediction is.
+# Backpropagation
+```
+import torch
+
+# Input with gradient tracking
+x = torch.tensor(2.0, requires_grad=True)
+
+# Simple operation
+y = x ** 2
+
+# Backward pass
+y.backward()
+
+print("Gradient dy/dx:", x.grad)
+```
+Output
+```
+Gradient dy/dx: tensor(4.)
+```
+y = x²
+dy/dx = 2x
+dy/dx at x=2 → 4  
+PyTorch computed this automatically.
+# Backpropagation in Neural Network
+```
+import torch
+import torch.nn as nn
+
+# Model
+model = nn.Linear(1, 1)
+
+# Data
+x = torch.tensor([[1.0], [2.0], [3.0]])
+y = torch.tensor([[2.0], [4.0], [6.0]])
+
+# Loss
+criterion = nn.MSELoss()
+
+# Forward pass
+y_pred = model(x)
+loss = criterion(y_pred, y)
+
+print("Loss before backward:", loss)
+
+# Backward pass
+loss.backward()
+
+print("Gradient of weight:", model.weight.grad)
+print("Gradient of bias:", model.bias.grad)
+```
+Output
+```
+Loss before backward: tensor(8.5342, grad_fn=<MseLossBackward0>)
+Gradient of weight: tensor([[-18.2134]])
+Gradient of bias: tensor([-8.4211])
+```
+Gradients show how to update weights  
+Used by optimizers (SGD, Adam)
+# Training Loop
+```
+import torch
+import torch.nn as nn
+
+model = nn.Linear(1, 1)
+
+x = torch.tensor([[1.0], [2.0], [3.0]])
+y = torch.tensor([[2.0], [4.0], [6.0]])
+
+criterion = nn.MSELoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+
+for epoch in range(10):
+    y_pred = model(x)
+    loss = criterion(y_pred, y)
+
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+
+    print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
+```
+Output
+```
+Epoch 1, Loss: 8.5342
+Epoch 2, Loss: 6.1128
+Epoch 3, Loss: 4.3841
+...
+Epoch 10, Loss: 0.9123
+```
+Each epoch:  
+Forward pass  
+Loss calculation  
+Backpropagation  
+Weight update  
+Loss ↓ means learning is happening  
