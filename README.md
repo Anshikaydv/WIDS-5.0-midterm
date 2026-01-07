@@ -29,7 +29,7 @@ print("Shape of vector:", vector.shape)
 print("Datatype:", vector.dtype)
 
 ```
-shape → tells dimensions
+shape → tells dimensions  
 dtype → tells data type (int64, float32, etc.)
 
 # Tensor Attributes
@@ -44,10 +44,11 @@ print("Dimensions:", x.ndim)
 print("Data type:", x.dtype)
 print("Device:", x.device)
 ```
-shape → size in each dimension
-ndim → number of dimensions
-dtype → float32 / float64
-device → CPU or GPU
+random number  
+shape → size in each dimension  
+ndim → number of dimensions  
+dtype → float32 / float64  
+device → CPU or GPU  
 
 # Tensor Initialization
 ```
@@ -70,6 +71,10 @@ print(b)
 print(c)
 print(d)
 ```
+zeros → bias initialization  
+ones → testing / debugging  
+randn → normal distribution (used in weights)  
+rand → uniform distribution  
 # Tensor Operations
 ```
 import torch
@@ -108,11 +113,19 @@ print(A * B)
 Multiplies corresponding elements  
 NOT matrix multiplication
 ```
+tensor([[ 5., 12.],
+        [21., 32.]])
+```
+```
 print(torch.matmul(A, B))
 ```
 OR
 ```
 print(A @ B)
+```
+```
+tensor([[19., 22.],
+        [43., 50.]])
 ```
 Uses linear algebra rule
 Used in neural networks:
@@ -134,6 +147,12 @@ x = torch.arange(1, 7)
 x_reshaped = x.view(2, 3)
 print(x_reshaped)
 ```
+Output
+```
+tensor([[1, 2, 3],
+        [4, 5, 6]])
+```
+
 view() reshapes tensor  
 No data copied, just reinterpreted  
 Used to flatten images before fully connected layers  
@@ -150,6 +169,10 @@ torch_tensor = torch.from_numpy(np_array)
 
 print(torch_tensor)
 ```
+output 
+```
+tensor([1, 2, 3])
+```
 Tensor → NumPy
 ```
 tensor = torch.tensor([4, 5, 6])
@@ -157,9 +180,18 @@ tensor = torch.tensor([4, 5, 6])
 np_from_tensor = tensor.numpy()
 print(np_from_tensor)
 ```
+output
+```
+array([4, 5, 6])
+```
 They share memory  
 Changing one changes the other
 ```
 np_array[0] = 100
 print(torch_tensor)
 ```
+output
+```
+tensor([100,   2,   3])
+```
+
