@@ -133,7 +133,8 @@ Used in neural networks:
     output = input @ weights + bias
     ```
 # Dot Product 
-``` x = torch.tensor([1., 2., 3.])
+```
+x = torch.tensor([1., 2., 3.])
 y = torch.tensor([4., 5., 6.])
 
 dot = torch.dot(x, y)
@@ -219,8 +220,8 @@ Output
 ```
 z (before activation): tensor(-1.3)
 ```
-z = (1.0 × 0.5) + (2.0 × -1.0) + 0.2
-  = 0.5 - 2.0 + 0.2
+z = (1.0 × 0.5) + (2.0 × -1.0) + 0.2  
+  = 0.5 - 2.0 + 0.2  
   = -1.3  
 This is exactly one neuron.  
 # Activation Function(ReLU)
@@ -283,6 +284,7 @@ Output
 ```
 Model output: tensor([[0.3174]], grad_fn=<ReluBackward0>)
 ```
+NOTE: The answer is random as it depend on weights and bias which are randomly initialized and vary as many times as the code is run   
 nn.Linear(2,1) → Fully Connected layer  
 PyTorch handles weights & bias  
 grad_fn → gradients are being tracked  
@@ -303,9 +305,9 @@ Output
 ```
 Loss: tensor(0.4900)
 ```
-(y_true - y_pred)²
-= (1.0 - 0.3)²
-= 0.49
+(y_true - y_pred)²  
+= (1.0 - 0.3)²  
+= 0.49  
 Loss tells how bad the prediction is.
 # Backpropagation
 ```
